@@ -45,8 +45,10 @@ app.post('/add', (req, res) => {
     const sql = 'INSERT INTO tbl_usuario SET ?';
 
     const customerObj = {
-        name: req.body.name,
-        city: req.body.city
+        nombre_usuario: req.body.nombre_usuario,
+        cedula_usuario: req.body.cedula_usuario,
+        teléfono_usuario: req.body.teléfono_usuario,
+        mail_usuario: req.body.mail_usuario
     };
 
     connection.query(sql, customerObj, error => {
@@ -56,9 +58,9 @@ app.post('/add', (req, res) => {
 });
 
 app.put('/update/:id', (req, res) => {
-    const { id } = req.params;
-    const { name, city } = req.body;
-    const sql = `UPDATE tbl_usuario SET name = '${name}', city='${city}' WHERE id =${id}`;
+    const { id_usuario } = req.params;
+    const { nombre_usuario, cedula_usuario, mail_usuario, teléfono_usuario  } = req.body;
+    const sql = `UPDATE tbl_usuario SET nombre = '${nombre_usuario}', cedula='${cedula_usuario}', mail = '${mail_usuario}', telefono = '${teléfono_usuario}', WHERE id =${id_usuario}`;
 
     connection.query(sql, error => {
         if (error) throw error;
