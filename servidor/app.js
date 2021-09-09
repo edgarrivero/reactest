@@ -72,8 +72,8 @@ app.put('/update/:id', (req, res) => {
 });
 
 app.delete('/delete/:id', (req, res) => {
-    const { id } = req.params;
-    const sql = `DELETE FROM tbl_usuario WHERE id= ${id}`;
+    const { id_usuario } = req.params;
+    const sql = `DELETE FROM tbl_usuario WHERE id_usuario= ${id_usuario}`;
 
     connection.query(sql, error => {
         if (error) throw error;
