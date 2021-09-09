@@ -27,7 +27,9 @@ import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import { red } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import ShareIcon from '@material-ui/icons/Share';
+import UpdateIcon from '@material-ui/icons/Update';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
@@ -92,6 +94,18 @@ function App() {
         mail_usuario: mail_usuario
     })
     .then(function (response) {
+      //console.log(response);
+      
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+
+const deleteUser = (e,id) => {
+  console.log(id)
+  Axios.delete('http://localhost:3050/delete/' + id )
+    .then(function (response) {
       console.log(response);
       
     })
@@ -109,6 +123,7 @@ useEffect(() => {
       mail_usuario: mail_usuario
   })
   .then(function (response) {
+    console.log(response.data)
     setUsers(response.data)
   })
   .catch(function (error) {
@@ -122,6 +137,10 @@ useEffect(() => {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  function Capitalize(str){
+    return str.charAt(0);
+  }
 
   function FormRow() {
     return (
@@ -240,15 +259,16 @@ useEffect(() => {
         bgcolor="background.paper"
         //sx={{ maxWidth: 300, height: 200 }}
       >
-        <Box p={1} bgcolor="grey.300">
+        
         {
                     users.map((item) => {
                       return (
+                        <Box p={1} bgcolor="grey.300">
                                   <Card className={classes.root}>
                                   <CardHeader
                                     avatar={
                                       <Avatar aria-label="recipe" className={classes.avatar}>
-                                        {item.nombre_usuario}
+                                        {Capitalize(item.nombre_usuario)}
                                       </Avatar>
                                     }
                                     action={
@@ -262,16 +282,21 @@ useEffect(() => {
                                   
                                   <CardContent>
                                     <Typography variant="body2" color="textSecondary" component="p">
-                                      {item.nombre_usuario}
+                                      {item.telefono_usuario}
+                                      {item.mail_usuario}
                                     </Typography>
                                   </CardContent>
                                   <CardActions disableSpacing>
-                                    <IconButton aria-label="add to favorites">
-                                      <FavoriteIcon />
+                                    <IconButton aria-label="Update">
+                                      <UpdateIcon />
                                     </IconButton>
-                                    <IconButton aria-label="share">
-                                      <ShareIcon />
+                                    <IconButton 
+                                      onClick={(e) => deleteUser(e,item.id_usuario)}
+                                      aria-label="Delete"
+                                    >
+                                      <DeleteForeverIcon />
                                     </IconButton>
+                                   
                                     <IconButton
                                       className={clsx(classes.expand, {
                                         [classes.expandOpen]: expanded,
@@ -285,7 +310,7 @@ useEffect(() => {
                                   </CardActions>
                                   <Collapse in={expanded} timeout="auto" unmountOnExit>
                                     <CardContent>
-                                      <Typography paragraph>Method:</Typography>
+                                      <Typography paragraph>Otros:</Typography>
                                       <Typography paragraph>
                                         {item.cedula_usuario}
                                       </Typography>
@@ -301,10 +326,11 @@ useEffect(() => {
                                     </CardContent>
                                   </Collapse>
                                 </Card>
+                                </Box>
                       );   
                     })
                   }
-        </Box>
+      
        
       </Box>
 
