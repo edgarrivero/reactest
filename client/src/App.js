@@ -102,6 +102,32 @@ function App() {
     });
 }
 
+const llenado = (e,item) => {
+  console.log(item)
+  setCedula(item.cedula_usuario)
+  setNombre(item.nombre_usuario)
+  setMail(item.mail_usuario)
+  setTelefono(item.telefono_usuario)
+}
+
+
+const updateUser = (e,item) => {
+
+    Axios.patch('http://localhost:3050/update/' + item.id_usuario,
+    {
+        nombre_usuario: item.nombre_usuario,
+        cedula_usuario: item.cedula_usuario,
+        teléfono_usuario: item.telefono_usuario,
+        mail_usuario: item.mail_usuario
+    })
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
+}
+
 const deleteUser = (e,id) => {
   console.log(id)
   Axios.delete('http://localhost:3050/delete/' + id )
@@ -287,7 +313,10 @@ useEffect(() => {
                                     </Typography>
                                   </CardContent>
                                   <CardActions disableSpacing>
-                                    <IconButton aria-label="Update">
+                                    <IconButton 
+                                      onClick={(e) => llenado(e,item)}
+                                      aria-label="Update"
+                                    >
                                       <UpdateIcon />
                                     </IconButton>
                                     <IconButton 
