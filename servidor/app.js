@@ -1,10 +1,13 @@
 const express = require('express');
+const app = express();
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
+const cors = require("cors");
+
+app.use(cors());
+app.use(express.json());
 
 const PORT = process.env.PORT || 3050;
-
-const app = express();
 
 app.use(bodyParser.json());
 
@@ -60,7 +63,7 @@ app.post('/add', (req, res) => {
 app.put('/update/:id', (req, res) => {
     const { id_usuario } = req.params;
     const { nombre_usuario, cedula_usuario, mail_usuario, teléfono_usuario  } = req.body;
-    const sql = `UPDATE tbl_usuario SET nombre = '${nombre_usuario}', cedula='${cedula_usuario}', mail = '${mail_usuario}', telefono = '${teléfono_usuario}', WHERE id =${id_usuario}`;
+    const sql = `UPDATE tbl_usuario SET nombre_usuario = '${nombre_usuario}', cedula_usuario='${cedula_usuario}', mail_usuario = '${mail_usuario}', teléfono_usuario = '${teléfono_usuario}', WHERE id_usuario =${id_usuario}`;
 
     connection.query(sql, error => {
         if (error) throw error;
