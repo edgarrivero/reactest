@@ -60,7 +60,7 @@ app.post('/add', (req, res) => {
     });
 });
 
-app.put('/update/:id', (req, res) => {
+app.put('/update/:id_usuario', (req, res) => {
     const { id_usuario } = req.params;
     const { nombre_usuario, cedula_usuario, mail_usuario, teléfono_usuario  } = req.body;
     const sql = `UPDATE tbl_usuario SET nombre_usuario = '${nombre_usuario}', cedula_usuario='${cedula_usuario}', mail_usuario = '${mail_usuario}', teléfono_usuario = '${teléfono_usuario}', WHERE id_usuario =${id_usuario}`;
@@ -71,7 +71,7 @@ app.put('/update/:id', (req, res) => {
     });
 });
 
-app.delete('/delete/:id', (req, res) => {
+app.delete('/delete/:id_usuario', (req, res) => {
     const { id_usuario } = req.params;
     const sql = `DELETE FROM tbl_usuario WHERE id_usuario= ${id_usuario}`;
 
