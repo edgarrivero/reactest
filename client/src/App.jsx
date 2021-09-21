@@ -40,11 +40,16 @@ import { List } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
 
+  todo: {
+    height: '100%',
+    backgroundColor: "rgb(224, 224, 224)",
+  },
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -88,29 +93,47 @@ function App() {
   const [users, setUsers] = useState([])
 
 
-  const guardar = () => {
-    Axios.post('http://localhost:3050/add', 
-    {
+  const guardar = (item) => {
+    if (item == null){
+      Axios.post('http://localhost:3050/add', 
+      {
+          nombre_usuario: nombre_usuario,
+          cedula_usuario: cedula_usuario,
+          teléfono_usuario: telefono_usuario,
+          mail_usuario: mail_usuario
+      })
+      .then(function (response) {
+        //console.log(response);
+        
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    }else{
+      Axios.patch('http://localhost:3050/update/' + item.id_usuario,
+      {
         nombre_usuario: nombre_usuario,
         cedula_usuario: cedula_usuario,
         teléfono_usuario: telefono_usuario,
         mail_usuario: mail_usuario
-    })
-    .then(function (response) {
-      //console.log(response);
-      
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+          console.log(error);
+      });
+    }
+   
 }
 
 const llenado = (e,item) => {
   console.log(item)
-  setCedula(item.cedula_usuario)
-  setNombre(item.nombre_usuario)
-  setMail(item.mail_usuario)
-  setTelefono(item.telefono_usuario)
+  this.setCedula({cedula_usuario: item.cedula_usuario})
+  this.setNombre({nombre_usuario: item.nombre_usuario})
+  this.setMail({teléfono_usuario: item.mail_usuario})
+  this.setTelefono(item.telefono_usuario)
+  
 }
 
 
@@ -181,9 +204,11 @@ useEffect(() => {
     );
   }
 
+
+
   return (
     <div>
-      <Grid container>
+      <Grid container className={classes.todo}>
             <Grid item xs={12} sm={4} md={4}>
                 <Box border={2} m={2}>
                 <div className={classes.paper}>
@@ -288,7 +313,7 @@ useEffect(() => {
               flexWrap="wrap"
               alignContent="flex-start"
               p={2}
-              //bgcolor="background.paper"
+              bgcolor="rgb(224, 224, 224)"
               //sx={{ maxWidth: 300, height: 200 }}
               >
               
